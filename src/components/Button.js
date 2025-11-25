@@ -1,8 +1,8 @@
 import styles from './Button.module.css';
 
-function Button() {
+function Button(props) {
     return (
-        <button className={styles['button-class']}>Click me!</button>
+        <button className={styles['button-class']}>{props.text}</button>
     )
 }
 
