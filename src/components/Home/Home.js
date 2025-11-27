@@ -5,21 +5,23 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState } from 'react';
+import { searchUsers } from '../../services/githubService';
 
 function Home() {
 
     const [username, setUsername] = useState('');
     const [error, setError] = useState('');
 
-    const searchUsers = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!username.trim()) {
             setError('Username is required');
             return;
         }
         setError('');
-        
-        console.log("Searching users for: ", username);
+
+        const data = await searchUsers(username);
+        console.log(data);
     }
 
     return (
@@ -32,7 +34,7 @@ function Home() {
                 </Row>
                 <Row className="w-50">
                     <Col>
-                        <Form onSubmit={searchUsers}>
+                        <Form onSubmit={handleSubmit}>
                             <InputGroup className="mb-3" value={username} onChange={(e) => setUsername(e.target.value)}>
                                 <Form.Control
                                 isInvalid={!!error}
