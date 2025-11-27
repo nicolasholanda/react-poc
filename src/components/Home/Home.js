@@ -4,13 +4,18 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { searchUsers } from '../../services/githubService';
 
 function Home() {
 
     const [username, setUsername] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        document.title = 'Github Search';
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
