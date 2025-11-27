@@ -4,6 +4,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Spinner } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { searchUsers } from '../../services/githubService';
 
@@ -25,7 +26,10 @@ function Home() {
         }
         setError('');
 
+        setLoading(true);
         const data = await searchUsers(username);
+        setLoading(false);
+
         console.log(data);
     }
 
@@ -46,9 +50,10 @@ function Home() {
                                 placeholder="Enter GitHub username"
                                 aria-label="GitHub username"
                                 aria-describedby="basic-addon2"
+                                disabled={loading}
                                 />
-                                <Button variant="outline-secondary" id="button-addon2" type="submit">
-                                    Search
+                                <Button variant="outline-secondary" id="button-addon2" type="submit" disabled={loading}>
+                                    {loading ? <Spinner animation="border" size="sm" /> : 'Search'}
                                 </Button>
                                 <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
                             </InputGroup>
