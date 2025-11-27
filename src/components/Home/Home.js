@@ -6,13 +6,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Spinner } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { searchUsers } from '../../services/githubService';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
 
     const [username, setUsername] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = 'Github Search';
@@ -27,10 +28,7 @@ function Home() {
         setError('');
 
         setLoading(true);
-        const data = await searchUsers(username);
-        setLoading(false);
-
-        console.log(data);
+        navigate(`/users?q=${username}`);
     }
 
     return (
