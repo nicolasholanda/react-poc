@@ -1,17 +1,17 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Users from './components/Users/Users';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/users" element={<Users />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
