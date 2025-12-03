@@ -1,7 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import { searchUsers } from "../../services/githubService";
 import { useEffect, useState } from "react";
-import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import styles from './Users.module.css';
 
 function Users() {
 
@@ -10,28 +11,37 @@ function Users() {
 
     const [users, setUsers] = useState([]);
 
-    const fetchUsers = async () => {
-        const result = await searchUsers(username);
-
-        console.log(result);
-        setUsers(result);
-    }
-
     useEffect(() => {
+        const fetchUsers = async () => {
+            const result = await searchUsers(username);
+
+            console.log(result);
+            setUsers(result);
+        }
+
         fetchUsers();
-    }, []);
+    }, [username]);
 
     return (
-        <>
+        <Container className={styles.container}>
+            <p className={styles.resultsCount}>{users.total_count?.toLocaleString()} users</p>
             {users.items?.map(user => (
-                <Card key={user.id} style={{ width: '18rem' }} className="mb-3">
-                    <Card.Img variant="top" src={user.avatar_url} />
-                    <Card.Body>
-                        <Card.Title>{user.login}</Card.Title>
-                    </Card.Body>
-                </Card>
+                <div key={user.id} className={styles.userCard}>
+                    <img src={user.avatar_url} alt={user.login} className={styles.avatar} />
+                    <div className={styles.userInfo}>
+                        <div className={styles.nameRow}>
+                            <a href={user.html_url} target="_blank" rel="noreferrer" className={styles.username}>
+                                {user.login}
+                            </a>
+                        </div>
+                        <p className={styles.bio}>{user.bio}</p>
+                        <div className={styles.meta}>
+                            {user.location && <span className={styles.metaItem}>{user.location}</span>}
+                        </div>
+                    </div>
+                </div>
             ))}
-        </>
+        </Container>
     );
 }
 
